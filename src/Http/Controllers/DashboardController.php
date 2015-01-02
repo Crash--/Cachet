@@ -3,6 +3,7 @@
 namespace CachetHQ\Cachet\Http\Controllers;
 
 use CachetHQ\Cachet\Models\Component;
+use CachetHQ\Cachet\Models\User;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\View;
 
@@ -20,6 +21,21 @@ class DashboardController extends Controller
 
         return View::make('dashboard.index')->with([
             'components' => $components,
+        ]);
+    }
+
+    /**
+     * Shows the team members view.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showTeamView()
+    {
+        $team = User::all();
+
+        return View::make('dashboard.team')->with([
+            'pageTitle'   => 'Team Members - Dashboard',
+            'teamMembers' => $team,
         ]);
     }
 

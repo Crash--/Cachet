@@ -26,6 +26,11 @@ Route::group(['before' => 'auth', 'prefix' => 'dashboard', 'namespace' => 'Cache
     // Notifications
     Route::get('notifications', ['as' => 'dashboard.notifications', 'uses' => 'DashboardController@showNotifications']);
 
+    // Team Members
+    Route::get('team', ['as' => 'dashboard.team', 'uses' => 'DashboardController@showTeamView']);
+    Route::get('team/{user}', 'DashboardController@showTeamMemberView');
+    Route::get('team/add', ['as' => 'dashboard.team.add', 'uses' => 'DashboardController@showAddTeamMemberView']);
+
     // Settings
     Route::get('settings/setup', ['as' => 'dashboard.settings.setup', 'uses' => 'DashSettingsController@showSetupView']);
     Route::get('settings/security', ['as' => 'dashboard.settings.security', 'uses' => 'DashSettingsController@showSecurityView']);

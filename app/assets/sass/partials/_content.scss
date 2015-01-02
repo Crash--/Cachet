@@ -54,10 +54,28 @@ body.dashboard {
         }
 
         .striped-list {
-
             .striped-list-item {
                 border-bottom: 1px solid #f0f0f0;
                 padding: 8px 0;
+            }
+        }
+
+        .user-grid {
+            .user {
+                img {
+                    border-radius: 5px;
+                    margin-bottom: 15px;
+                    border: 0;
+                }
+
+                .name {
+                    font-weight: 600;
+                }
+
+                .email {
+                    color: #444;
+                    margin-top: 4px;
+                }
             }
         }
     }

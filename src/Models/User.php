@@ -72,4 +72,24 @@ class User extends Model implements UserInterface, RemindableInterface
     {
         return sprintf('https://www.gravatar.com/avatar/%s?size=%d', md5($this->email), $size);
     }
+
+    /**
+     * Returns whether a user is at admin level.
+     *
+     * @return bool
+     */
+    public function getIsAdminAttribute()
+    {
+        return ((int) $this->level) === 1;
+    }
+
+    /**
+     * Returns whether a user is at admin level.
+     *
+     * @return bool
+     */
+    public function getIsAdminAttribute()
+    {
+        return ((int) $this->level) === 1;
+    }
 }
