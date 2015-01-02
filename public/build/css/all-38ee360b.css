@@ -4766,6 +4766,15 @@ body.dashboard .content {
   body.dashboard .content .striped-list .striped-list-item {
     border-bottom: 1px solid #f0f0f0;
     padding: 8px 0; }
+  body.dashboard .content .user-grid .user img {
+    border-radius: 5px;
+    margin-bottom: 15px;
+    border: 0; }
+  body.dashboard .content .user-grid .user .name {
+    font-weight: 600; }
+  body.dashboard .content .user-grid .user .email {
+    color: #444;
+    margin-top: 4px; }
 
 .login {
   padding-top: 90px; }
