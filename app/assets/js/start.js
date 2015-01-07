@@ -188,4 +188,31 @@ $(function() {
             .filter(":lt(" + (next) + ")")
             .addClass("active");
     }
+
+    //Notifications
+    $('#testNotifier').on('click', function() {
+        var $form = $(this).parents('form'),
+            notifier = $form.data('notifier'),
+            formData = $form.serializeObject(),
+            $btn = $(this).button('loading');
+
+        $.ajax({
+                async: true,
+                url: '/dashboard/notifications/test'+notifier,
+                type: 'POST',
+                data: formData
+        })
+        .done(function(result) {
+            $btn.removeClass('btn-danger');
+            $btn.addClass('btn-success');
+            (new CachetHQ.Notifier()).notify($form.data('messenger'), 'success');
+        })
+        .fail(function(response, b, c) {
+            $btn.removeClass('btn-success');
+            $btn.addClass('btn-danger ');
+            (new CachetHQ.Notifier()).notify($form.data('error') + '<pre>'+response.responseText+'</pre>');
+        }).always(function() {
+            $btn.button('reset');
+        });
+    });
 });

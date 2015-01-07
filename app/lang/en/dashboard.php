@@ -125,6 +125,10 @@ return [
         'whoops'        => 'Whoops.',
         'active'        => 'Active',
         'message'       => 'An incident was just created. Here is some information : Name :name : Message :message : Status : :status',
+        'test_settings' => 'Test your settings',
+        'seemsok'       => 'Your configuration seems to be good!',
+        'error'         => 'You have a problem with your configuration!',
+        'testing'       => 'Testing...',
         'slack'         => [
             'slack_configuration' => 'Slack Configuration',
             'slack_endpoint'      => 'Slack Endpoint',

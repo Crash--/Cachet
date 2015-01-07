@@ -72,6 +72,8 @@ Route::group(['before' => 'auth', 'prefix' => 'dashboard', 'namespace' => 'Cache
         Route::get('twilio', 'NotificationController@showTwilio');
         Route::post('slack', 'NotificationController@editSlack');
         Route::post('twilio', 'NotificationController@editTwilio');
+        Route::post('testslack', 'NotificationController@testSlackConfiguration');
+        Route::post('testtwilio', 'NotificationController@testTwilioConfiguration');
     });
 
     // Team Members

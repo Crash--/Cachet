@@ -2,9 +2,12 @@
 
 namespace CachetHQ\Cachet\Http\Controllers;
 
+use CachetHQ\Cachet\Models\Incident;
 use CachetHQ\Cachet\Models\Service;
 use CachetHQ\Cachet\Notifications\SlackNotifier;
+use CachetHQ\Cachet\Notifications\TwilioNotifier;
 use GrahamCampbell\Binput\Facades\Binput;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\View;
@@ -142,5 +145,65 @@ class NotificationController extends Controller
         $twilioConfiguration->save();
 
         return Redirect::back();
+    }
+
+    /**
+     * Used to test the Slack Notification
+     *
+     * @return int
+     */
+    public function testSlackConfiguration(){
+        Service::unguard();
+        $service = new Service(['type' => 'slack']);
+        $properties         = [
+            'endpoint'     => Binput::get('endpoint'),
+            'channel'      => Binput::get('channel'),
+            'username'     => Binput::get('username'),
+            'notifierName' => 'SlackNotifier',
+        ];
+        $service->properties = $properties;
+
+        $model = new Incident();
+        $model->name = "foo";
+        $model->message = "bar";
+        $model->status = "1";
+
+        $notifier = new SlackNotifier();
+        $notifier->setParams($service->properties);
+        $notifier->prepareMessage($model);
+        $notifier->send();
+
+        return 1;
+    }
+
+    /**
+     * Used to test the Twilio configuration
+     *
+     * @return int
+     */
+    public function testTwilioConfiguration(){
+        Service::unguard();
+        $service = new Service(['type' => 'twilio']);
+        $properties          = [
+            'token'        => Binput::get('token'),
+            'from'         => Binput::get('from'),
+            'to'           => Binput::get('to'),
+            'account_id'   => Binput::get('account_id'),
+            'notifierName' => 'TwilioNotifier',
+        ];
+        $service->properties = $properties;
+
+        $model = new Incident();
+        $model->name = "foo";
+        $model->message = "bar";
+        $model->status = "1";
+
+        $notifier = new TwilioNotifier();
+        $notifier->setParams($service->properties);
+        $notifier->prepareMessage($model);
+        $notifier->send();
+
+        return 1;
+
     }
 }

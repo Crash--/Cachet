@@ -1,5 +1,9 @@
 <h4>{{ trans('dashboard.notifications.slack.slack_configuration') }}</h4>
-<form id="slack_notification" name="SlackSettings" class="form-vertical" role="form" action="/dashboard/notifications/slack" method="POST" enctype="multipart/form-data">
+<form id="slack_notification" name="SlackSettings" class="form-vertical" role="form"
+      action="/dashboard/notifications/slack" method="POST" enctype="multipart/form-data"
+      data-messenger="{{trans('dashboard.notifications.seemsok') }}"
+      data-notifier="slack"
+      data-error="{{trans('dashboard.notifications.error')}}">
     <fieldset>
         <div class="row">
             <div class="col-xs-12">
@@ -30,6 +34,9 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="form-group">
+                    <button type="button" class="btn btn-success" id="testNotifier" data-loading-text="{{trans('dashboard.notifications.testing')}}">
+                        {{ trans('dashboard.notifications.test_settings') }}
+                    </button>
                     <button type="submit" class="btn btn-success">{{ trans('forms.save') }}</button>
                 </div>
             </div>
