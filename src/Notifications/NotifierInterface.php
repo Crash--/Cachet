@@ -33,11 +33,11 @@ interface NotifierInterface
     /**
      * Set params in order to construct the request.
      *
-     * @param array $params
+     * @param \stdClass $params
      *
      * @return \CachetHQ\Cachet\Notifications\NotifierInterface
      */
-    public function setParams(array $params);
+    public function setParams(\stdClass $params);
 
     /**
      * You can edit the message.

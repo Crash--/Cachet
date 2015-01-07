@@ -42,7 +42,16 @@ class NotificationController extends Controller
     public function showSlack()
     {
         $slackConfiguration = Service::where('type', 'slack')->first();
-        $slackProperties = $slackConfiguration->properties;
+        if (is_null($slackConfiguration)) {
+            $slackConfiguration             = new Service();
+            $slackConfiguration->active     = 0;
+            $slackConfiguration->properties = [
+                'endpoint'     => 'endpoint url',
+                'channel'      => '#Channel',
+                'username'     => 'BotName',
+                'notifierName' => 'SlackNotifier',
+            ];
+        }
 
         $this->subMenu['slack']['active'] = true;
 
@@ -50,7 +59,7 @@ class NotificationController extends Controller
             'pageTitle'  => trans('Notification configuration - Dashboard'),
             'subMenu'    => $this->subMenu,
             'partial'    => 'slack',
-            'properties' => $slackProperties,
+            'properties' => $slackConfiguration->properties,
             'active'     => $slackConfiguration->active,
         ]);
     }
@@ -63,15 +72,24 @@ class NotificationController extends Controller
     public function showTwilio()
     {
         $twilioConfiguration = Service::where('type', 'twilio')->first();
-        $twilioProperties = $twilioConfiguration->properties;
-
+        if (is_null($twilioConfiguration)) {
+            $twilioConfiguration             = new Service();
+            $twilioConfiguration->active     = 0;
+            $twilioConfiguration->properties = [
+                'from'         => '+1',
+                'to'           => '+1',
+                'account_id'   => 'AccountSSI',
+                'token'        => 'AuthToken',
+                'notifierName' => 'TwilioNotifier',
+            ];
+        }
         $this->subMenu['twilio']['active'] = true;
 
         return View::make('dashboard.notifications.index')->with([
             'pageTitle'  => trans('Notification configuration - Dashboard'),
             'subMenu'    => $this->subMenu,
             'partial'    => 'twilio',
-            'properties' => $twilioProperties,
+            'properties' => $twilioConfiguration->properties,
             'active'     => $twilioConfiguration->active,
         ]);
     }
@@ -83,8 +101,9 @@ class NotificationController extends Controller
      */
     public function editSlack()
     {
-        $slackConfiguration = Service::where('type', 'slack')->first();
-        $properties = [
+        Service::unguard();
+        $slackConfiguration = Service::firstOrCreate(['type' => 'slack']);
+        $properties         = [
             'endpoint'     => Binput::get('endpoint'),
             'channel'      => Binput::get('channel'),
             'username'     => Binput::get('username'),
@@ -92,7 +111,7 @@ class NotificationController extends Controller
         ];
 
         $slackConfiguration->properties = $properties;
-        $slackConfiguration->active = (Binput::get('active') == 1) ? 1 : 0;
+        $slackConfiguration->active     = (Binput::get('active') == 1) ? 1 : 0;
 
         $slackConfiguration->save();
 
@@ -106,18 +125,18 @@ class NotificationController extends Controller
      */
     public function editTwilio()
     {
-        $twilioConfiguration = Service::where('type', 'twilio')->first();
-        $properties = [
+        Service::unguard();
+        $twilioConfiguration = Service::firstOrCreate(['type' => 'twilio']);
+        $properties          = [
             'token'        => Binput::get('token'),
             'from'         => Binput::get('from'),
             'to'           => Binput::get('to'),
             'account_id'   => Binput::get('account_id'),
-            'token'        => Binput::get('token'),
             'notifierName' => 'TwilioNotifier',
         ];
 
         $twilioConfiguration->properties = $properties;
-        $twilioConfiguration->active = (Binput::get('active') == 1) ? 1 : 0;
+        $twilioConfiguration->active     = (Binput::get('active') == 1) ? 1 : 0;
 
         $twilioConfiguration->save();
 
